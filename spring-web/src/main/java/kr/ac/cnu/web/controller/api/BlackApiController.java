@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.util.Optional;
@@ -32,6 +33,11 @@ public class BlackApiController {
     private BlackjackService blackjackService;
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping(value = "/test", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String test(){
+        return "test";
+    }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User login(@RequestBody String name) {

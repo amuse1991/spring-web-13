@@ -1,6 +1,10 @@
 spring:
   thymeleaf:
     cache: false
+  mvc:
+    view:
+      prefix: /static/blackjack
+      suffix: .html
 #  datasource:
 #    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 #    username: sa
@@ -13,3 +17,5 @@ application:
     mapper-locations: classpath:mybatis/mapper/menuMapper.xml
     type-aliases-package: kr.ac.cnu.web.model
 
+server:
+  port: 3000
