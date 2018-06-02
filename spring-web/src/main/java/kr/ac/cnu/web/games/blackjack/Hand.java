@@ -25,9 +25,12 @@ public class Hand {
 
     public int getCardSum() {
         int sum = 0;
+
         for (Card card :cardList) {
-            if(card.getRank() <= 10 && card.getRank() >= 1) // J, Q, K가 아니라면 현 카드의 Rank로 계산
+            if(card.getRank() <= 10 && card.getRank() >= 2) // J, Q, K가 아니고, ACE 라면 현 카드의 Rank로 계산
                 sum += card.getRank();
+            else if(card.getRank() == 1) // ACE일 경우, 1과 11 중 shuffe한 값으로 sum 계산
+                sum += card.getAceRank();
             else if(card.getRank() >= 11 && card.getRank() < 14) // J, Q, K라면 10으로 계산
                 sum += 10;
         }
