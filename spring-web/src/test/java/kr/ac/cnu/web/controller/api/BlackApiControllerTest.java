@@ -1,5 +1,6 @@
 package kr.ac.cnu.web.controller.api;
 
+import kr.ac.cnu.web.games.blackjack.GameRoom;
 import kr.ac.cnu.web.model.User;
 import kr.ac.cnu.web.repository.UserRepository;
 import kr.ac.cnu.web.service.BlackjackService;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -41,5 +44,16 @@ public class BlackApiControllerTest {
                 post("/api/black-jack/rooms")
                         .header("name", "Robin")
         ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void 히트를_했을때_21을_넘으면_게임종료() throws Exception {
+        int DECK_NUMBER = 1;
+        Map<String, GameRoom> gameRoomMap = new HashMap<>();
+        int roomId = 1;
+        User user = new User("yoonho",1000);
+        GameRoom gameRoom = gameRoomMap.get(roomId);
+        gameRoom.hit(user.getName());
+        //TODO hit의 결과가 21을 넘으면 게임 종료
     }
 }

@@ -34,11 +34,6 @@ public class BlackApiController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping(value = "/test", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String test(){
-        return "test";
-    }
-
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User login(@RequestBody String name) {
         return userRepository.findById(name).orElseThrow(() -> new NoUserException());
@@ -58,10 +53,6 @@ public class BlackApiController {
         // TODO save in repository
         return userRepository.save(user);
     }
-
-
-
-
 
     @PostMapping("/rooms")
     public GameRoom createRoom(@RequestHeader("name") String name) {

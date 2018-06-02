@@ -2,6 +2,7 @@ package kr.ac.cnu.web.service;
 
 import kr.ac.cnu.web.games.blackjack.Deck;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
+import kr.ac.cnu.web.games.blackjack.Player;
 import kr.ac.cnu.web.model.User;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +53,13 @@ public class BlackjackService {
 
     public GameRoom hit(String roomId, User user) {
         GameRoom gameRoom = gameRoomMap.get(roomId);
-
         gameRoom.hit(user.getName());
-
+        //TODO hit의 결과가 21을 넘으면 게임 종료
+        Player player = gameRoom.getPlayerList().get(user.getName());
+        if(player.getHand().getCardSum() > 21){
+            player.stand();
+            gameRoom.playDealer();
+        }
         return gameRoom;
     }
 
@@ -66,5 +71,4 @@ public class BlackjackService {
 
         return gameRoom;
     }
-
 }
