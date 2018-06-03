@@ -414,10 +414,29 @@
 </div>
 <div class="page" id="lobby" style="display: none">
     <div>
-        <div class="buttons"><div class="btn" id="create_room_button">Create</div></div>
+        <b>User Name</b><br>
+        <span id="robby-player-name" class="player-name"></span>
+    </div>
+    <div>
+        <b>Account</b><br>
+        <span id="robby-player-account" class="player-account"></span>
+    </div>
+    <div>
+        <div class="buttons"><div class="btn" id="create_room_button">Room Create</div></div>
     </div>
 </div>
 <div class="page" id="game" style="display: none">
+    <div class="player-info">
+        <div>
+            <b>User Name</b><br>
+            <span id="player-name" class="player-name"></span>
+        </div>
+        <div>
+            <b>Available Funds</b><br>
+            <span id="money" class="money"></span>
+            <div class="clear"></div>
+        </div>
+    </div>
     <div class="dealer-cards"></div>
     <div class="clear"></div>
     <div class="player-cards"></div>
@@ -432,11 +451,7 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div>
-        <b>Available Funds</b><br>
-        <span id="money" class="money"></span>
-        <div class="clear"></div>
-    </div>
+
 </div>
 </body>
 <script src="./jquery-3.3.1.min.js"></script>
@@ -457,6 +472,9 @@
             $('#login').hide();
             $('#lobby').show();
             user = data;
+            console.log(user);
+            $('.player-name').html(user.name);
+            $('#robby-player-account').html(user.account);
         });
     });
 
@@ -471,6 +489,9 @@
             $('#login').hide();
             $('#lobby').show();
             user = data;
+            console.log(user);
+            $('.player-name').html(user.name);
+            $('#robby-player-account').html(user.account);
         });
     });
 
