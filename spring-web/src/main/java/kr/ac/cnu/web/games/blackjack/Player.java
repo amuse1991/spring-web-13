@@ -2,11 +2,11 @@ package kr.ac.cnu.web.games.blackjack;
 
 import kr.ac.cnu.web.exceptions.NotEnoughBalanceException;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by rokim on 2018. 5. 26..
  */
+
 public class Player {
     @Getter
     private long balance;
@@ -16,6 +16,7 @@ public class Player {
     private boolean isPlaying;
     @Getter
     private Hand hand;
+
 
     public Player(long seedMoney, Hand hand) {
         this.balance = seedMoney;

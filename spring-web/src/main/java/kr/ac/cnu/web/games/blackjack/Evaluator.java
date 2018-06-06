@@ -1,5 +1,7 @@
 package kr.ac.cnu.web.games.blackjack;
 
+import kr.ac.cnu.web.model.User;
+
 import java.util.Map;
 
 /**
@@ -14,7 +16,7 @@ public class Evaluator {
         this.dealer = dealer;
     }
 
-    public boolean evaluate() {
+    public boolean evaluate(User user) {
         if (playerMap.values().stream().anyMatch(player -> player.isPlaying())) {
             return false;
         }
