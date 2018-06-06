@@ -1,5 +1,6 @@
 package kr.ac.cnu.web.controller.api;
 
+import com.sun.deploy.net.HttpResponse;
 import kr.ac.cnu.web.exceptions.NoLoginException;
 import kr.ac.cnu.web.exceptions.NoUserException;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
@@ -7,7 +8,9 @@ import kr.ac.cnu.web.model.User;
 import kr.ac.cnu.web.repository.UserRepository;
 import kr.ac.cnu.web.service.BlackjackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.util.Optional;
@@ -48,7 +52,7 @@ public class BlackApiController {
         }
 
         // TODO new user
-        User user = new User(name, 1900);
+        User user = new User(name, 50000);
 
         // TODO save in repository
         return userRepository.save(user);
@@ -62,7 +66,10 @@ public class BlackApiController {
     }
 
     @PostMapping(value = "/rooms/{roomId}/bet", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GameRoom bet(@RequestHeader("name") String name, @PathVariable String roomId, @RequestBody long betMoney) {
+    public GameRoom bet(@RequestHeader("name") String name, @PathVariable String roomId, @RequestBody long betMoney, HttpServletResponse response) {
+        if(betMoney > 10000){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
         User user = this.getUserFromSession(name);
 
         return blackjackService.bet(roomId, user, betMoney);
