@@ -1,5 +1,6 @@
 package kr.ac.cnu.web.games.blackjack;
 
+import kr.ac.cnu.web.model.User;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -70,9 +71,9 @@ public class GameRoom {
         player.stand();
     }
 
-    public void playDealer() {
+    public void playDealer(User user) {
         dealer.play();
-        evaluator.evaluate();
+        evaluator.evaluate(user);
         this.isFinished = true;
     }
 

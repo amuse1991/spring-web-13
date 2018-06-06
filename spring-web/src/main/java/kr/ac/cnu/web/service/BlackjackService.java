@@ -4,6 +4,8 @@ import kr.ac.cnu.web.games.blackjack.Deck;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
 import kr.ac.cnu.web.games.blackjack.Player;
 import kr.ac.cnu.web.model.User;
+import kr.ac.cnu.web.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class BlackjackService {
     private final int DECK_NUMBER = 1;
     private final Map<String, GameRoom> gameRoomMap = new HashMap<>();
+    @Autowired
+    private UserRepository userRepository;
 
     public GameRoom createGameRoom(User user) {
         Deck deck = new Deck(DECK_NUMBER);
@@ -53,22 +57,29 @@ public class BlackjackService {
 
     public GameRoom hit(String roomId, User user) {
         GameRoom gameRoom = gameRoomMap.get(roomId);
-        gameRoom.hit(user.getName());
+        String userName = user.getName();
+        gameRoom.hit(userName);
         //TODO hit의 결과가 21을 넘으면 게임 종료
-        Player player = gameRoom.getPlayerList().get(user.getName());
+        Player player = gameRoom.getPlayerList().get(userName);
         if(player.getHand().getCardSum() > 21){
             player.stand();
-            gameRoom.playDealer();
+            gameRoom.playDealer(user);
         }
+        userRepository.save(
+                new User(userName,player.getBalance())
+        );
         return gameRoom;
     }
 
     public GameRoom stand(String roomId, User user) {
         GameRoom gameRoom = gameRoomMap.get(roomId);
-
-        gameRoom.stand(user.getName());
-        gameRoom.playDealer();
-
+        String userName = user.getName();
+        Player player = gameRoom.getPlayerList().get(userName);
+        gameRoom.stand(userName);
+        gameRoom.playDealer(user);
+        userRepository.save(
+                new User(userName,player.getBalance())
+        );
         return gameRoom;
     }
 }

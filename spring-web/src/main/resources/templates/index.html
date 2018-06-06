@@ -557,17 +557,37 @@
         var money = parseInt($('#money').html());
         var isAllIn = false;
         if(money === 0){
-            alert("금액이 부족합니다.")
+            alert("금액이 부족합니다.");
         }
         else{
+        //     if(money < 1000){
+        //         isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
+        //     }
+        //     if(isAllIn){
+        //         $('#bet').html(currentBet + money);
+        //         $('#money').html(0);
+        //     }
+        //     else{
+        //         if (money < bet) {
+        //             bet = money;
+        //         }
+        //         $('#bet').html(currentBet + bet);
+        //         $('#money').html(money - bet);
+        //     }
             if(money < 1000){
                 isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
             }
-            if(isAllIn){
+            totalBet = currentBet + bet;
+            isLimitBet = isLimitedBet(totalBet);
+
+            if(isAllIn){    //  베팅 금액보다 현재 money가 적다면, All-in
                 $('#bet').html(currentBet + money);
                 $('#money').html(0);
             }
-            else{
+            else if(isLimitBet && money > totalBet) {   // money가 있는데 상한선을 넘었다면,
+                alert("상한선을 넘었습니다.");
+            }
+            else if(!isLimitBet && money > totalBet) {      // money가 있는데 상한선을 넘지 않았다면, 정상 처리
                 if (money < bet) {
                     bet = money;
                 }
@@ -575,7 +595,15 @@
                 $('#money').html(money - bet);
             }
         }
+
     });
+
+    function isLimitedBet(bet) {
+        if(bet > 10000)
+            return true;
+        else
+            return false;
+    }
 
     $('#less').click(function(){
         var bet = 1000;
@@ -584,7 +612,6 @@
         if(currentBet < bet) {
             bet = currentBet;
         }
-
         $('#bet').html(currentBet - bet);
         $('#money').html(money + bet);
     });
