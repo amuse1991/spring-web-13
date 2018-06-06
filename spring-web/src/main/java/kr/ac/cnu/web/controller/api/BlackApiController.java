@@ -52,7 +52,7 @@ public class BlackApiController {
         }
 
         // TODO new user
-        User user = new User(name, 50000);
+        User user = new User(name, 900);
 
         // TODO save in repository
         return userRepository.save(user);
