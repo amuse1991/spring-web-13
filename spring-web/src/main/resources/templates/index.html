@@ -556,19 +556,24 @@
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
         var isAllIn = false;
-        if(money < 1000){
-            isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
-        }
-        if(isAllIn){
-            $('#bet').html(currentBet + money);
-            $('#money').html(0);
+        if(money === 0){
+            alert("금액이 부족합니다.")
         }
         else{
-            if (money < bet) {
-                bet = money;
+            if(money < 1000){
+                isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
             }
-            $('#bet').html(currentBet + bet);
-            $('#money').html(money - bet);
+            if(isAllIn){
+                $('#bet').html(currentBet + money);
+                $('#money').html(0);
+            }
+            else{
+                if (money < bet) {
+                    bet = money;
+                }
+                $('#bet').html(currentBet + bet);
+                $('#money').html(money - bet);
+            }
         }
     });
 
