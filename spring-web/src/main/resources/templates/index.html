@@ -467,36 +467,48 @@
 
     $('#login_button').click(function() {
         var loginName = $('#input_login_name').val();
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:'+port+'/api/black-jack/login',
-            data: loginName,
-            contentType:'application/json;'
-        }).done(function(data) {
-            $('#login').hide();
-            $('#lobby').show();
-            user = data;
-            console.log(user);
-            $('.player-name').html(user.name);
-            $('#robby-player-account').html(user.account);
-        });
+        if(loginName===""){
+            alert("ID를 입력하세요");
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:'+port+'/api/black-jack/login',
+                data: loginName,
+                contentType:'application/json;'
+            }).done(function(data) {
+                $('#login').hide();
+                $('#lobby').show();
+                user = data;
+                console.log(user);
+                $('.player-name').html(user.name);
+                $('#robby-player-account').html(user.account);
+            }).fail(function(data){
+                alert("등록되지 않은 ID입니다.")
+            });
+        }
     });
 
     $('#signup_button').click(function() {
         var loginName = $('#input_login_name').val();
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:'+port+'/api/black-jack/users',
-            data: loginName,
-            contentType:'application/json;'
-        }).done(function(data) {
-            $('#login').hide();
-            $('#lobby').show();
-            user = data;
-            console.log(user);
-            $('.player-name').html(user.name);
-            $('#robby-player-account').html(user.account);
-        });
+        if(loginName === ""){
+            alert("사용할 이름을 입력하세요");
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:'+port+'/api/black-jack/users',
+                data: loginName,
+                contentType:'application/json;'
+            }).done(function(data) {
+                $('#login').hide();
+                $('#lobby').show();
+                user = data;
+                console.log(user);
+                $('.player-name').html(user.name);
+                $('#robby-player-account').html(user.account);
+            }).fail(function(){
+                alert("이미 등록된 ID입니다.")
+            });
+        }
     });
 
     $('#create_room_button').click(function() {

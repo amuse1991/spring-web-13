@@ -1,16 +1,14 @@
 package kr.ac.cnu.web.controller.api;
 
-import com.sun.deploy.net.HttpResponse;
 import kr.ac.cnu.web.exceptions.NoLoginException;
+import kr.ac.cnu.web.exceptions.NoSignupException;
 import kr.ac.cnu.web.exceptions.NoUserException;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
 import kr.ac.cnu.web.model.User;
 import kr.ac.cnu.web.repository.UserRepository;
 import kr.ac.cnu.web.service.BlackjackService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.*;
 import java.util.Optional;
 
 /**
@@ -48,7 +44,7 @@ public class BlackApiController {
         // TODO check already used name
         Optional<User> userOptional = userRepository.findById(name);
         if (userOptional.isPresent()) {
-            throw new RuntimeException();
+            throw new NoSignupException();
         }
 
         // TODO new user

@@ -19,6 +19,6 @@ application:
     type-aliases-package: kr.ac.cnu.web.model
 
 server:
-  port: 3001
+  port: 3000
 
 
