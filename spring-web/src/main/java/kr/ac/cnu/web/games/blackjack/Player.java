@@ -37,10 +37,13 @@ public class Player {
     }
 
     public void placeBet(long bet,boolean isDoubleDown) {
+        long totalBalance = balance + currentBet;
+
         if(balance < bet) {
             throw new NotEnoughBalanceException();
         }
-        balance -= bet;
+
+        balance = totalBalance - bet;
         currentBet = bet;
 
         if(isDoubleDown){
@@ -62,16 +65,26 @@ public class Player {
         else{
             balance += currentBet * 2;
         }
-        currentBet = 1000;
+        reCalculation();
     }
 
     public void tie() {
-        balance += currentBet;
-        currentBet = 1000;
+        /*
+            balance += currentBet;
+            currentBet = 1000;
+        */
+
+        long totalBalance = balance + currentBet;
+        reCalculation();
     }
 
     public void lost() {
+        reCalculation();
+    }
+
+    public void reCalculation() {
         currentBet = 1000;
+        balance -= currentBet;
     }
 
     public Card hitCard() {
