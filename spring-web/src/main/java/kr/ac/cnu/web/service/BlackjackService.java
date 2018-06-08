@@ -1,5 +1,6 @@
 package kr.ac.cnu.web.service;
 
+import com.google.gson.Gson;
 import kr.ac.cnu.web.games.blackjack.Deck;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
 import kr.ac.cnu.web.games.blackjack.Player;
@@ -8,8 +9,7 @@ import kr.ac.cnu.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rokim on 2018. 5. 26..
@@ -102,5 +102,18 @@ public class BlackjackService {
         );
 
         return gameRoom;
+    }
+
+    public String getRank(List<User> users){
+        Collections.sort(users,new AccountDescCompare());
+        Gson gson = new Gson();
+        return gson.toJson(users);
+    }
+
+    class AccountDescCompare implements Comparator<User>{
+        @Override
+        public int compare(User o1, User o2) {
+            return o1.getAccount() > o2.getAccount() ? -1 : o1.getAccount() < o2.getAccount() ? 1 : 0;
+        }
     }
 }
