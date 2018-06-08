@@ -645,12 +645,17 @@
     $('#less').click(function(){
         var bet = 1000;
         var currentBet = parseInt($('#bet').html());
-        var money = parseInt($('#money').html());
-        if(currentBet < bet) {
-            bet = currentBet;
+        if(currentBet == 1000){
+            alert("최소한 1000원 이상의 금액을 배팅해야 합니다.");
         }
-        $('#bet').html(currentBet - bet);
-        $('#money').html(money + bet);
+        else{
+            var money = parseInt($('#money').html());
+            if(currentBet < bet) {
+                bet = currentBet;
+            }
+            $('#bet').html(currentBet - bet);
+            $('#money').html(money + bet);
+        }
     });
 
     function drawGameRoom(gameRoom) {
