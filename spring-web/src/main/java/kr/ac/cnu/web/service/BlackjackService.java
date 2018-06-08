@@ -25,7 +25,7 @@ public class BlackjackService {
         Deck deck = new Deck(DECK_NUMBER);
 
         GameRoom gameRoom = new GameRoom(deck);
-        gameRoom.addPlayer(user.getName(), user.getAccount());
+        gameRoom.addPlayer(user.getName(), user.getAccount(),true);
 
         gameRoomMap.put(gameRoom.getRoomId(), gameRoom);
 

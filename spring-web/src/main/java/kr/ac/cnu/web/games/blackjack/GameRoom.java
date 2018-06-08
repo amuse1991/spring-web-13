@@ -32,8 +32,13 @@ public class GameRoom {
         this.isFinished = true;
     }
 
-    public void addPlayer(String playerName, long seedMoney) {
-        Player player = new Player(seedMoney, new Hand(deck));
+    public void addPlayer(String playerName, long seedMoney, boolean isInitRoom) {
+        Player player;
+        if(isInitRoom){
+            player = new Player(seedMoney, new Hand(deck),1000);
+        }else{
+            player = new Player(seedMoney, new Hand(deck));
+        }
 
         playerList.put(playerName, player);
     }
