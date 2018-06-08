@@ -440,7 +440,11 @@
     <div class="dealer-cards"></div>
     <div class="clear"></div>
     <div class="player-cards"></div>
-    <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div></div>
+    <div class="buttons">
+        <div class="btn" id="hit">Hit</div>
+        <div class="btn" id="stand">Stand</div>
+        <div class="btn" id="doubleDown">Double down</div>
+    </div>
     <div class="buttons"><div class="btn" id="deal">Deal</div></div>
     <div class="betting-area">
         <b>Your Bet</b><br>
@@ -551,6 +555,26 @@
         });
     })
 
+    $('#doubleDown').click(function() {
+        var curBet = parseInt($('#bet').html());
+        var money = parseInt($('#money').html());
+
+        $('#bet').html(curBet*2);
+        $('#money').html(money - (curBet*2));
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:'+port+'/api/black-jack/rooms/' + gameRoomId + '/doubleDown',
+            headers: {
+                'name':user.name
+            },
+            data: JSON.stringify(curBet),
+            contentType:'application/json;'
+        }).done(function(data) {
+            drawGameRoom(data);
+        });
+    })
+
     $('#more').click(function(){
         var bet = 1000;
         var currentBet = parseInt($('#bet').html());
@@ -623,12 +647,14 @@
             $('#more').show();
             $('#less').show();
             $('#hit').hide();
+            $('#doubleDown').hide();
             $('#stand').hide();
         } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
             $('#hit').show();
+            $('#doubleDown').show();
             $('#stand').show();
         }
 

@@ -47,10 +47,10 @@ public class GameRoom {
         playerList.forEach((s, player) -> player.reset());
     }
 
-    public void bet(String name, long bet) {
+    public void bet(String name, long bet, boolean isDoubleDown) {
         Player player = playerList.get(name);
 
-        player.placeBet(bet);
+        player.placeBet(bet, isDoubleDown);
     }
 
     public void deal() {
