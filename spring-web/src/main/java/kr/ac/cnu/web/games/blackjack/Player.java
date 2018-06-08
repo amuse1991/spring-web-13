@@ -25,7 +25,7 @@ public class Player {
     }
 
     public Player(long seedMoney, Hand hand, long defaultBet) {
-        this.balance = seedMoney;
+        this.balance = seedMoney-defaultBet;
         this.hand = hand;
         this.currentBet = defaultBet;
         isPlaying = false;
