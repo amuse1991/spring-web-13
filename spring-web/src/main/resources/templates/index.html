@@ -426,6 +426,15 @@
     </div>
 </div>
 <div class="page" id="game" style="display: none">
+    <div class="rank" id="rank-div">
+        <table id="rank-board">
+            <tr>
+                <th>순위</th>
+                <th>이름</th>
+                <th>금액</th>
+            </tr>
+        </table>
+    </div>
     <div class="player-info">
         <div>
             <b>User Name</b><br>
@@ -466,6 +475,30 @@
     var port = 3000;
     var isFirstHitDone = false;
 
+    function clearRankItem(){
+        $('tr.rank-item').remove();
+    }
+
+    function getRank()  {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:'+port+'/api/black-jack/rank'
+        }).done(function(data) {
+           var rankData = JSON.parse(data);
+           clearRankItem();
+           rankData.forEach(function(userData,idx) {
+               var _rank = idx+1;
+               var _name = userData.name;
+               var _account = userData.account;
+               $('#rank-board').append("<tr class='rank-item'>" +
+                   "<td>" + _rank + "</td>" +
+                   "<td>" + _name + "</td>" +
+                   "<td>" + _account + "</td>" +
+                   "</tr>");
+           });
+        });
+    }
+
     $('#login_button').click(function() {
         var loginName = $('#input_login_name').val();
         if(loginName===""){
@@ -477,6 +510,7 @@
                 data: loginName,
                 contentType:'application/json;'
             }).done(function(data) {
+                getRank();
                 $('#login').hide();
                 $('#lobby').show();
                 user = data;
@@ -499,6 +533,7 @@
                 data: loginName,
                 contentType:'application/json;'
             }).done(function(data) {
+                getRank();
                 $('#login').hide();
                 $('#lobby').show();
                 user = data;
@@ -713,6 +748,8 @@
 
         $('#bet').html(gameRoom.playerList[user.name].currentBet);
         $('#money').html(gameRoom.playerList[user.name].balance);
+
+        getRank();
     }
 
     function generateCardDiv(rank, suit) {

@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import springfox.documentation.spring.web.json.Json;
+import com.google.gson.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -97,6 +100,10 @@ public class BlackApiController {
         return blackjackService.getGameRoom(roomId);
     }
 
+    @GetMapping("/rank")
+    public String getRank(){
+        return blackjackService.getRank(userRepository.findAll());
+    }
 
     private User getUserFromSession(String name) {
         return userRepository.findById(name).orElseThrow(() -> new NoLoginException());
