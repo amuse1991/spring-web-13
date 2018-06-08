@@ -590,7 +590,7 @@
     $('#more').click(function(){
         var bet = 1000;
         var currentBet = parseInt($('#bet').html());
-        var money = parseInt($('#money').html());
+        var money = parseInt($('#money').html()) - bet;
         var isAllIn = false;
         if(money === 0){
             alert("금액이 부족합니다.");
