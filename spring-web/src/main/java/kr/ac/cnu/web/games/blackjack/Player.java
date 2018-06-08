@@ -21,7 +21,13 @@ public class Player {
     public Player(long seedMoney, Hand hand) {
         this.balance = seedMoney;
         this.hand = hand;
+        isPlaying = false;
+    }
 
+    public Player(long seedMoney, Hand hand, long defaultBet) {
+        this.balance = seedMoney;
+        this.hand = hand;
+        this.currentBet = defaultBet;
         isPlaying = false;
     }
 
@@ -56,16 +62,16 @@ public class Player {
         else{
             balance += currentBet * 2;
         }
-        currentBet = 0;
+        currentBet = 1000;
     }
 
     public void tie() {
         balance += currentBet;
-        currentBet = 0;
+        currentBet = 1000;
     }
 
     public void lost() {
-        currentBet = 0;
+        currentBet = 1000;
     }
 
     public Card hitCard() {
