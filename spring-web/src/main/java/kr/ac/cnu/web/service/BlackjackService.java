@@ -49,7 +49,7 @@ public class BlackjackService {
         GameRoom gameRoom = gameRoomMap.get(roomId);
 
         gameRoom.reset();
-        gameRoom.bet(user.getName(), bet);
+        gameRoom.bet(user.getName(), bet,false);
         gameRoom.deal();
 
         return gameRoom;
@@ -80,6 +80,24 @@ public class BlackjackService {
         userRepository.save(
                 new User(userName,player.getBalance())
         );
+        return gameRoom;
+    }
+
+    public GameRoom doubleDown(String roomId, User user, long betMoney) {
+        GameRoom gameRoom = gameRoomMap.get(roomId);
+        String userName = user.getName();
+        //TODO 배팅 금액 2배로
+        betMoney *= 2;
+        gameRoom.bet(userName, betMoney,true);
+
+        //TODO 그 뒤로는 스탠드랑 같음
+        Player player = gameRoom.getPlayerList().get(userName);
+        gameRoom.stand(userName);
+        gameRoom.playDealer(user);
+        userRepository.save(
+                new User(userName,player.getBalance())
+        );
+
         return gameRoom;
     }
 }

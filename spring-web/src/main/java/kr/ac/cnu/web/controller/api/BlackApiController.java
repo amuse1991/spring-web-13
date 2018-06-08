@@ -52,7 +52,7 @@ public class BlackApiController {
         }
 
         // TODO new user
-        User user = new User(name, 900);
+        User user = new User(name, 50000);
 
         // TODO save in repository
         return userRepository.save(user);
@@ -80,6 +80,13 @@ public class BlackApiController {
         User user = this.getUserFromSession(name);
 
         return blackjackService.hit(roomId, user);
+    }
+
+    @PostMapping(value = "/rooms/{roomId}/doubleDown", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public GameRoom doubleDown(@RequestHeader("name") String name, @PathVariable String roomId,  @RequestBody long betMoney) {
+        User user = this.getUserFromSession(name);
+
+        return blackjackService.doubleDown(roomId, user,betMoney);
     }
 
     @PostMapping("/rooms/{roomId}/stand")

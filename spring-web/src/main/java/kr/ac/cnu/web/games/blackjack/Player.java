@@ -30,14 +30,18 @@ public class Player {
         isPlaying = false;
     }
 
-    public void placeBet(long bet) {
+    public void placeBet(long bet,boolean isDoubleDown) {
         if(balance < bet) {
             throw new NotEnoughBalanceException();
         }
         balance -= bet;
         currentBet = bet;
 
-        isPlaying = true;
+        if(isDoubleDown){
+            isPlaying=false;
+        }else{
+            isPlaying = true;
+        }
     }
 
     public void deal() {
