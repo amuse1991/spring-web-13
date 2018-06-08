@@ -90,10 +90,13 @@ public class BlackjackService {
         betMoney *= 2;
         gameRoom.bet(userName, betMoney,true);
 
-        //TODO 그 뒤로는 스탠드랑 같음
+        //TODO 카드 한장 더 받고 해당 판 종료
+        gameRoom.hit(userName);
+
         Player player = gameRoom.getPlayerList().get(userName);
-        gameRoom.stand(userName);
+        player.stand();
         gameRoom.playDealer(user);
+
         userRepository.save(
                 new User(userName,player.getBalance())
         );

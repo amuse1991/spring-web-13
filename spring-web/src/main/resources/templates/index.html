@@ -464,6 +464,7 @@
     var user;
     var gameRoomId;
     var port = 3000;
+    var isFirstHitDone = false;
 
     $('#login_button').click(function() {
         var loginName = $('#input_login_name').val();
@@ -479,7 +480,6 @@
                 $('#login').hide();
                 $('#lobby').show();
                 user = data;
-                console.log(user);
                 $('.player-name').html(user.name);
                 $('#robby-player-account').html(user.account);
             }).fail(function(data){
@@ -502,7 +502,6 @@
                 $('#login').hide();
                 $('#lobby').show();
                 user = data;
-                console.log(user);
                 $('.player-name').html(user.name);
                 $('#robby-player-account').html(user.account);
             }).fail(function(){
@@ -544,6 +543,7 @@
     })
 
     $('#hit').click(function() {
+        isFirstHitDone = true;
         $.ajax({
             type: 'POST',
             url: 'http://localhost:'+port+'/api/black-jack/rooms/' + gameRoomId + '/hit',
@@ -640,19 +640,19 @@
         else
             return false;
     }
-
-    function setDefaultBet(defaultBet){
-        var money = parseInt($('#money').html());
-        if(money < 1000){
-            alert("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. \n" +
-                "남은 금액을 모두 올인하여 게임을 시작합니다.");
-            //TODO 올인하여 시작
-            $('#bet').html(money);
-            $('#money').html(0);
-        }
-        $('#bet').html(defaultBet);
-        $('#money').html(money - defaultBet);
-    }
+    //
+    // function setDefaultBet(defaultBet){
+    //     var money = parseInt($('#money').html());
+    //     if(money < 1000){
+    //         alert("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. \n" +
+    //             "남은 금액을 모두 올인하여 게임을 시작합니다.");
+    //         //TODO 올인하여 시작
+    //         $('#bet').html(money);
+    //         $('#money').html(0);
+    //     }
+    //     $('#bet').html(defaultBet);
+    //     $('#money').html(money - defaultBet);
+    // }
 
     $('#less').click(function(){
         var bet = 1000;
@@ -671,22 +671,25 @@
     });
 
     function drawGameRoom(gameRoom) {
-        console.log(gameRoom);
         if (gameRoom.finished) {
             $('#deal').show();
             $('#more').show();
             $('#less').show();
             $('#hit').hide();
-            $('#doubleDown').hide();
             $('#stand').hide();
-            // setDefaultBet(1000);
+            $('#doubleDown').hide();
+            isFirstHitDone = false;
         } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
             $('#hit').show();
-            $('#doubleDown').show();
             $('#stand').show();
+            if(isFirstHitDone){
+                $('#doubleDown').hide();
+            }else{
+                $('#doubleDown').show();
+            }
         }
 
         $('.dealer-cards').html("");
