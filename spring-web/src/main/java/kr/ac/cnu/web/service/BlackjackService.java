@@ -66,7 +66,7 @@ public class BlackjackService {
             gameRoom.playDealer(user);
         }
         userRepository.save(
-                new User(userName,player.getBalance())
+                new User(userName,player.getBalance() + player.getCurrentBet())
         );
         return gameRoom;
     }
@@ -78,7 +78,7 @@ public class BlackjackService {
         gameRoom.stand(userName);
         gameRoom.playDealer(user);
         userRepository.save(
-                new User(userName,player.getBalance())
+                new User(userName,player.getBalance() + player.getCurrentBet())
         );
         return gameRoom;
     }
