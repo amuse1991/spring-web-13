@@ -640,19 +640,19 @@
         else
             return false;
     }
-
-    function setDefaultBet(defaultBet){
-        var money = parseInt($('#money').html());
-        if(money < 1000){
-            alert("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. \n" +
-                "남은 금액을 모두 올인하여 게임을 시작합니다.");
-            //TODO 올인하여 시작
-            $('#bet').html(money);
-            $('#money').html(0);
-        }
-        $('#bet').html(defaultBet);
-        $('#money').html(money - defaultBet);
-    }
+    //
+    // function setDefaultBet(defaultBet){
+    //     var money = parseInt($('#money').html());
+    //     if(money < 1000){
+    //         alert("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. \n" +
+    //             "남은 금액을 모두 올인하여 게임을 시작합니다.");
+    //         //TODO 올인하여 시작
+    //         $('#bet').html(money);
+    //         $('#money').html(0);
+    //     }
+    //     $('#bet').html(defaultBet);
+    //     $('#money').html(money - defaultBet);
+    // }
 
     $('#less').click(function(){
         var bet = 1000;
