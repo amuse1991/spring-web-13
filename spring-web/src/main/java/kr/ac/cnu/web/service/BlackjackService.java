@@ -110,6 +110,10 @@ public class BlackjackService {
         return gson.toJson(users);
     }
 
+    public boolean isBlackJack(Player player){
+        return player.getHand().getCardSum() == 21;
+    }
+
     class AccountDescCompare implements Comparator<User>{
         @Override
         public int compare(User o1, User o2) {
