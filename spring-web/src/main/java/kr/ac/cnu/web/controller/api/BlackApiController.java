@@ -1,6 +1,7 @@
 package kr.ac.cnu.web.controller.api;
 
 import kr.ac.cnu.web.exceptions.NoLoginException;
+import kr.ac.cnu.web.exceptions.NoMoreBettingException;
 import kr.ac.cnu.web.exceptions.NoSignupException;
 import kr.ac.cnu.web.exceptions.NoUserException;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
@@ -68,7 +69,7 @@ public class BlackApiController {
     @PostMapping(value = "/rooms/{roomId}/bet", consumes = MediaType.APPLICATION_JSON_VALUE)
     public GameRoom bet(@RequestHeader("name") String name, @PathVariable String roomId, @RequestBody long betMoney, HttpServletResponse response) {
         if(betMoney > 10000){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            throw new NoMoreBettingException();
         }
         User user = this.getUserFromSession(name);
         //배팅
@@ -113,6 +114,8 @@ public class BlackApiController {
     public String getRank(){
         return blackjackService.getRank(userRepository.findAll());
     }
+
+
 
     private User getUserFromSession(String name) {
         return userRepository.findById(name).orElseThrow(() -> new NoLoginException());
