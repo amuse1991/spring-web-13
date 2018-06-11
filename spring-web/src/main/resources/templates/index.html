@@ -516,8 +516,12 @@
                 user = data;
                 $('.player-name').html(user.name);
                 $('#robby-player-account').html(user.account);
-            }).fail(function(data){
-                alert("등록되지 않은 ID입니다.")
+            }).fail(function(jqXHR){
+                if(jqXHR.status === 403){
+                    alert("등록되지 않은 ID입니다.")
+                }else{
+                    alert("에러가 발생했습니다.\n" + "에러 코드 : "+jqXHR.status )
+                }
             });
         }
     });
@@ -525,7 +529,7 @@
     $('#signup_button').click(function() {
         var loginName = $('#input_login_name').val();
         if(loginName === ""){
-            alert("사용할 이름을 입력하세요");
+            alert("사용할 ID를 입력하세요");
         }else{
             $.ajax({
                 type: 'POST',
@@ -539,8 +543,12 @@
                 user = data;
                 $('.player-name').html(user.name);
                 $('#robby-player-account').html(user.account);
-            }).fail(function(){
-                alert("이미 등록된 ID입니다.")
+            }).fail(function(jqXHR){
+                if(jqXHR.status === 406){
+                    alert("이미 등록된 아이디입니다.")
+                }else{
+                    alert("에러가 발생했습니다.\n" + "에러 코드 : "+jqXHR.status )
+                }
             });
         }
     });
@@ -563,7 +571,6 @@
 
     $('#deal').click(function() {
         var bet = parseInt($('#bet').html());
-
         $.ajax({
             type: 'POST',
             url: 'http://localhost:'+port+'/api/black-jack/rooms/' + gameRoomId + '/bet',
@@ -574,6 +581,10 @@
             contentType:'application/json;',
         }).done(function(data) {
             drawGameRoom(data);
+        }).fail(function(jqXHR){
+            if(jqXHR.status === 400){
+                alert("잘못된 배팅입니다.")
+            }
         });
     })
 
@@ -626,25 +637,17 @@
         var bet = 1000;
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
-        var isAllIn = false;
+        var isAllIn = false
+
         if(money === 0){
             alert("금액이 부족합니다.");
         }
         else{
-        //     if(money < 1000){
-        //         isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
-        //     }
-        //     if(isAllIn){
-        //         $('#bet').html(currentBet + money);
-        //         $('#money').html(0);
-        //     }
-        //     else{
-        //         if (money < bet) {
-        //             bet = money;
-        //         }
-        //         $('#bet').html(currentBet + bet);
-        //         $('#money').html(money - bet);
-        //     }
+            /*
+            배팅 상한선 1000원으로 제한하는 문제에 대해,
+            프론트엔드에서는 more을 클릭하는 이벤트에서 10000원 이상 배팅하지 못하도록 유효성을 검토하고
+            최종적으로는 deal을 클릭했을때 호출되는 백엔드 bet 메소드에서 한번 더 10000원 이상인지 검토하도록 구현함
+             */
             if(money < 1000){
                 isAllIn = confirm("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. 올인하시겠습니까?");
             }
@@ -666,7 +669,6 @@
                 $('#money').html(money - bet);
             }
         }
-
     });
 
     function isLimitedBet(bet) {
@@ -675,19 +677,6 @@
         else
             return false;
     }
-    //
-    // function setDefaultBet(defaultBet){
-    //     var money = parseInt($('#money').html());
-    //     if(money < 1000){
-    //         alert("가진 돈이 기본 배팅 금액인 1000원보다 작습니다. \n" +
-    //             "남은 금액을 모두 올인하여 게임을 시작합니다.");
-    //         //TODO 올인하여 시작
-    //         $('#bet').html(money);
-    //         $('#money').html(0);
-    //     }
-    //     $('#bet').html(defaultBet);
-    //     $('#money').html(money - defaultBet);
-    // }
 
     $('#less').click(function(){
         var bet = 1000;
