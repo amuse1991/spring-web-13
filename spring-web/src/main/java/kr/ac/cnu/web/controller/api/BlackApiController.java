@@ -4,6 +4,7 @@ import kr.ac.cnu.web.exceptions.NoLoginException;
 import kr.ac.cnu.web.exceptions.NoSignupException;
 import kr.ac.cnu.web.exceptions.NoUserException;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
+import kr.ac.cnu.web.games.blackjack.Player;
 import kr.ac.cnu.web.model.User;
 import kr.ac.cnu.web.repository.UserRepository;
 import kr.ac.cnu.web.service.BlackjackService;
@@ -70,8 +71,16 @@ public class BlackApiController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         User user = this.getUserFromSession(name);
-
-        return blackjackService.bet(roomId, user, betMoney);
+        //배팅
+        GameRoom betResult = blackjackService.bet(roomId,user,betMoney);
+        Player player = betResult.getPlayerList().get(name);
+        //블랙잭 처리
+        if(blackjackService.isBlackJack(player)){
+            //TODO 블랙잭으로 처리하고 게임 종료
+            return blackjackService.stand(roomId,user);
+        }
+        //블랙잭 아닌 경우
+        return betResult;
     }
 
     @PostMapping("/rooms/{roomId}/hit")
