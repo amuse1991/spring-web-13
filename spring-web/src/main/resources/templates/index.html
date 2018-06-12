@@ -21,7 +21,7 @@
     }
 
     h1{
-        font-size:35px;
+        font-size: 35px;
         text-align: center;
         line-height: 40px;
     }
@@ -48,7 +48,8 @@
         color: #333;
         font-size: 15px;
         line-height: 40px;
-        background-color: #FFFFFF;
+        background: linear-gradient( to right, #21610B, #0B3B24 );
+        color: #ffffff;
     }
 
     .clear{
@@ -59,7 +60,8 @@
         width: auto;
         max-width: 900px;
         margin: 0 auto;
-        background-color: #fff;
+        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0);
         min-height: 500px;
         text-align: center;
     }
@@ -442,7 +444,7 @@
         </div>
         <div>
             <b>Available Funds</b><br>
-            <span id="money" class="money"></span>
+            <span style="background: -webkit-linear-gradient(30deg, red, yellow); color: transparent; -webkit-background-clip: text;" id="money" class="money"></span>
             <div class="clear"></div>
         </div>
     </div>
@@ -457,15 +459,15 @@
     <div class="buttons"><div class="btn" id="deal">Deal</div></div>
     <div class="betting-area">
         <b>Your Bet</b><br>
-        <div id="bet" class="bet money">0</div>
+        <div style="background: -webkit-linear-gradient(30deg, red, yellow); color: transparent; -webkit-background-clip: text;" id="bet" class="bet money">0</div>
         <div>
             <div class="btn" id="more">+</div>
             <div class="btn" id="less">-</div>
         </div>
         <div class="clear"></div>
     </div>
-
 </div>
+
 </body>
 <script src="./jquery-3.3.1.min.js"></script>
 
