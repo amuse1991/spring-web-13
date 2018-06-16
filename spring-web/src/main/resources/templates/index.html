@@ -528,18 +528,18 @@
             type: 'GET',
             url: 'http://localhost:'+port+'/api/black-jack/rank'
         }).done(function(data) {
-            var rankData = JSON.parse(data);
-            clearRankItem();
-            rankData.forEach(function(userData,idx) {
-                var _rank = idx+1;
-                var _name = userData.name;
-                var _account = userData.account;
-                $('#rank-board').append("<tr class='rank-item'>" +
-                    "<td>" + _rank + "</td>" +
-                    "<td>" + _name + "</td>" +
-                    "<td>" + _account + "</td>" +
-                    "</tr>");
-            });
+           var rankData = JSON.parse(data);
+           clearRankItem();
+           rankData.forEach(function(userData,idx) {
+               var _rank = idx+1;
+               var _name = userData.name;
+               var _account = userData.account;
+               $('#rank-board').append("<tr class='rank-item'>" +
+                   "<td>" + _rank + "</td>" +
+                   "<td>" + _name + "</td>" +
+                   "<td>" + _account + "</td>" +
+                   "</tr>");
+           });
         });
     }
 
