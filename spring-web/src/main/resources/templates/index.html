@@ -49,23 +49,23 @@
 
     th{
         text-align: center;
-        border-bottom: 2px solid greenyellow;
-        background-color: greenyellow;
+        border-bottom: 2px solid #3f5184;
+        background-color: #94a3cc;
         padding: 10px;
+        color:#3f5184;
     }
 
     td{
         text-align: center;
-        border-bottom: 1px solid greenyellow;
+        border-bottom: 1px solid #3f5184;
     }
 
     body{
         font-family: Arial, Helvetica, sans-serif;
-        color: #333;
         font-size: 15px;
-        line-height: 40px;
-        background: linear-gradient( to right, #21610B, #0B3B24 );
         color: #ffffff;
+        line-height: 40px;
+        background : #326a5b;
     }
 
     .clear{
@@ -76,8 +76,7 @@
         width: auto;
         max-width: 900px;
         margin: 0 auto;
-        background-color: #ffffff;
-        background-color: rgba(255, 255, 255, 0);
+        background-color: #326a5b;
         min-height: 500px;
         text-align: center;
     }
@@ -128,7 +127,7 @@
         white-space: nowrap;
         text-decoration: none;
         cursor: pointer;
-        background-color: #A9014B;
+        background-color: #cc94a3;
         border-style: none;
         text-align: center;
         overflow: visible;
@@ -150,11 +149,11 @@
     .btn:focus {
         background-position: 0 -50px;
         color: white;
-        background-color: #c90059;
+        background-color: #5a78af;
     }
 
     .btn:active {
-        background-color: #7c0d3e;
+        background-color: #6482b9;
         -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
         -webkit-box-shadow: none;
     }
@@ -430,10 +429,17 @@
         padding: 20px;
         text-align: center;
         font-size: xx-large;
-        background: -webkit-linear-gradient(30deg, red, yellow);
-        color: transparent;
-        -webkit-background-clip: text;
+        color:#5A78AF;
     }
+
+    #money{
+        color:#a0a0a0;
+    }
+
+    #bet{
+        color:#a0a0a0;
+    }
+
 </style>
 </head>
 <body>
@@ -478,7 +484,7 @@
             </div>
             <div>
                 <b>Available Funds</b><br>
-                <span style="background: -webkit-linear-gradient(30deg, red, yellow); color: transparent; -webkit-background-clip: text;" id="money" class="money"></span>
+                <span id="money" class="money"></span>
                 <div class="clear"></div>
             </div>
         </div>
@@ -493,7 +499,7 @@
         <div class="buttons"><div class="btn" id="deal">Deal</div></div>
         <div class="betting-area">
             <b>Your Bet</b><br>
-            <div style="background: -webkit-linear-gradient(30deg, red, yellow); color: transparent; -webkit-background-clip: text;" id="bet" class="bet money">0</div>
+            <div id="bet" class="bet money">0</div>
             <div>
                 <div class="btn" id="more">+</div>
                 <div class="btn" id="less">-</div>
@@ -697,14 +703,20 @@
             }
             else if(isLimitBet && money > totalBet) {   // money가 있는데 상한선을 넘었다면,
                 alert("상한선을 넘었습니다.");
+                return;
             }
-            else if(!isLimitBet && money > totalBet) {      // money가 있는데 상한선을 넘지 않았다면, 정상 처리
-                if (money < bet) {
-                    bet = money;
-                }
-                $('#bet').html(currentBet + bet);
-                $('#money').html(money - bet);
+            // else if(!isLimitBet && money > totalBet) {      // money가 있는데 상한선을 넘지 않았다면, 정상 처리
+            //     if (money < bet) {
+            //         bet = money;
+            //     }
+            //     $('#bet').html(currentBet + bet);
+            //     $('#money').html(money - bet);
+            // }
+            if (money < bet) {
+                bet = money;
             }
+            $('#bet').html(currentBet + bet);
+            $('#money').html(money - bet);
         }
     });
 
@@ -733,13 +745,19 @@
 
     function drawGameRoom(gameRoom) {
         if (gameRoom.finished) {
-            $('#deal').show();
-            $('#more').show();
-            $('#less').show();
-            $('#hit').hide();
-            $('#stand').hide();
-            $('#doubleDown').hide();
-            isFirstHitDone = false;
+            if(gameRoom.playerList[user.name].balance <= 0){
+                alert("파산했습니다! 게임을 종료합니다.");
+                $('#game').hide();
+                $('#login').show();
+            }else{
+                $('#deal').show();
+                $('#more').show();
+                $('#less').show();
+                $('#hit').hide();
+                $('#stand').hide();
+                $('#doubleDown').hide();
+                isFirstHitDone = false;
+            }
         } else {
             $('#deal').hide();
             $('#more').hide();

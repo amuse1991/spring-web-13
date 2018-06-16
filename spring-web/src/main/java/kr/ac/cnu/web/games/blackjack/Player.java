@@ -39,7 +39,7 @@ public class Player {
     public void placeBet(long bet,boolean isDoubleDown) {
         long totalBalance = balance + currentBet;
 
-        if(balance < bet) {
+        if(balance+1000 < bet) {
             throw new NotEnoughBalanceException();
         }
 
