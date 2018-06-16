@@ -53,7 +53,7 @@ public class BlackApiController {
         }
 
         // TODO new user
-        User user = new User(name, 50000);
+        User user = new User(name, 10000);
 
         // TODO save in repository
         return userRepository.save(user);
@@ -67,7 +67,7 @@ public class BlackApiController {
     }
 
     @PostMapping(value = "/rooms/{roomId}/bet", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GameRoom bet(@RequestHeader("name") String name, @PathVariable String roomId, @RequestBody long betMoney, HttpServletResponse response) {
+    public GameRoom bet(@RequestHeader("name") String name, @PathVariable String roomId, @RequestBody long betMoney) {
         if(betMoney > 10000){
             throw new NoMoreBettingException();
         }
